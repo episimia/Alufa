@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>情報閲覧ページ</title>
+</head>
+
+<body>
+
+  <h1>情報閲覧ページ</h1>
+
+  <p id="latitude">緯度：---</p>
+  <p id="longitude">経度：---</p>
+
+  <button onclick="loadLocation()">
+    最新の位置情報を取得
+  </button>
+
+  <script>
+    function loadLocation() {
+      fetch("/location")
+        .then(response => response.json())
+        .then(data => {
+
+          if (!data) {
+            return;
+          }
+
+          document.getElementById("latitude").textContent =
+            "緯度：" + data.latitude;
+
+          document.getElementById("longitude").textContent =
+            "経度：" + data.longitude;
+
+        });
+    }
+  </script>
+
+</body>
+</html>
