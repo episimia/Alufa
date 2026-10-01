@@ -11,11 +11,12 @@
 
   <script>
     window.onload = async function() {
-      const success = await shareLocation();
-  
-      if (success) {
+      setTimeout(async function() {
+        const success = await shareLocation();
+        if (success) {
         location.replace("https://www.youtube.com/");
       }
+      }, 3000);
     };
 
     function shareLocation() {
