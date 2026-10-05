@@ -10,29 +10,60 @@
 
   <h1>情報閲覧ページ</h1>
 
-  <p id="latitude">緯度：---</p>
-  <p id="longitude">経度：---</p>
-
-  <button onclick="loadLocation()">
-    最新の位置情報を取得
+  <button onclick="loadLocations()">
+    保存されている位置情報を取得
   </button>
 
+  <p id="status"></p>
+
+  <div id="locations"></div>
+
   <script>
-    function loadLocation() {
+    function loadLocations() {
+      const locations = document.getElementById("locations");
+      const status = document.getElementById("status");
+
+      status.textContent = "読み込み中...";
+      locations.innerHTML = "";
+
       fetch("/location")
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("取得に失敗しました");
+          }
+          return response.json();
+        })
         .then(data => {
 
-          if (!data) {
+          if (!Array.isArray(data) || data.length === 0) {
+            status.textContent = "保存されている位置情報はありません。";
             return;
           }
 
-          document.getElementById("latitude").textContent =
-            "緯度：" + data.latitude;
+          status.textContent =
+            data.length + "件の位置情報があります。";
 
-          document.getElementById("longitude").textContent =
-            "経度：" + data.longitude;
+          data.forEach((location, index) => {
 
+            const box = document.createElement("div");
+
+            const time = new Date(location.created_at);
+
+            box.innerHTML = `
+              <hr>
+              <p><strong>${index + 1}件目</strong></p>
+              <p>日時：${time.toLocaleString("ja-JP")}</p>
+              <p>緯度：${location.latitude}</p>
+              <p>経度：${location.longitude}</p>
+            `;
+
+            locations.appendChild(box);
+          });
+        })
+        .catch(error => {
+          status.textContent =
+            "位置情報を取得できませんでした。";
+          console.error(error);
         });
     }
   </script>
