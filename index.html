@@ -10,12 +10,12 @@
   
 <section id="screen1">
   <p>このサイトは日本国内からでしかアクセス出来ません。</p>
-  <p>このサイトは日本国内からでしかアクセス出来ません。</p>
+  <p>あなたがアクセスしようとしているのは日本国内ですか？</p>
 </section>
 
 <section id="screen2" hidden>
-  <h2>あなたのアカウント</h2>
-  <p>これから表示されるのが特定したあなたのアカウントです。</p>
+  <h2>Youtube</h2>
+  <p>Youtubeに飛びます。</p>
 </section>
 
   <script>
@@ -26,7 +26,7 @@
         if (success) {
           document.getElementById("screen2").hidden = false;
           setTimeout(async function() {
-            location.replace("line://nv/profile");
+            location.replace("https://www.youtube.com/");
           }, 5000);
         }
       }, 6000);
